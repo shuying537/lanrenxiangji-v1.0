@@ -1,0 +1,46 @@
+<view class="camera-page">
+  <view wx:if="{{!photoPath}}" class="camera-stage">
+    <camera id="camera" class="camera" device-position="{{devicePosition}}" flash="off" binderror="cameraError">
+      <cover-view wx:if="{{guideVisible}}" class="guide-overlay">
+        <cover-view class="guide-safe-area"></cover-view>
+        <cover-view wx:if="{{gridVisible}}" class="guide-grid">
+          <cover-view class="guide-grid-v guide-grid-v1"></cover-view><cover-view class="guide-grid-v guide-grid-v2"></cover-view>
+          <cover-view class="guide-grid-h guide-grid-h1"></cover-view><cover-view class="guide-grid-h guide-grid-h2"></cover-view>
+        </cover-view>
+        <cover-view class="guide-zone-label">{{labels.safeArea}}</cover-view>
+        <cover-view class="guide-adjust-layer">
+          <cover-view class="guide-person {{personGuideClass}}"></cover-view>
+          <cover-view class="guide-person-label {{personGuideClass}}">{{personGuideLabel}}</cover-view>
+          <cover-view class="guide-object {{objectGuideClass}}"></cover-view>
+          <cover-view class="guide-object-label {{objectGuideClass}}">{{objectGuideLabel}}</cover-view>
+        </cover-view>
+        <cover-view class="guide-caption">{{template.title}}</cover-view>
+      </cover-view>
+      <cover-view class="camera-top-bar">
+        <cover-view class="camera-top-button" bindtap="toggleGuide">{{guideVisible ? labels.hideGuide : labels.showGuide}}</cover-view>
+        <cover-view class="camera-top-button" bindtap="toggleGrid">{{labels.grid}}</cover-view>
+        <cover-view class="camera-top-button switch-button" bindtap="switchCamera">{{labels.switchCamera}}</cover-view>
+      </cover-view>
+    </camera>
+  </view>
+
+  <view wx:if="{{!photoPath}}" class="camera-info">
+    <view class="camera-step-label">{{labels.currentStep}} 1 / 3</view>
+    <view class="camera-step-text">{{template.steps[0]}}</view>
+    <view class="camera-sub-guide">{{template.cameraGuide}}</view>
+  </view>
+
+  <view wx:if="{{!photoPath}}" class="camera-controls">
+    <button class="control-text flip-control" bindtap="mirrorGuide">{{labels.flip}}</button>
+    <button class="shutter {{isTaking ? 'shutter-disabled' : ''}}" bindtap="takePhoto"><view class="shutter-inner"></view></button>
+    <view class="control-placeholder"></view>
+  </view>
+
+  <view wx:if="{{photoPath}}" class="result-page">
+    <view class="result-title">{{saved ? labels.saved : labels.preview}}</view>
+    <image class="result-image" mode="aspectFit" src="{{photoPath}}"></image>
+    <view class="result-note">{{labels.resultNote}}</view>
+    <view class="result-actions"><button class="secondary-button" bindtap="retake">{{labels.retake}}</button><button class="secondary-button" bindtap="openEditor">{{labels.edit}}</button><button class="primary-button" bindtap="savePhoto">{{saved ? labels.saveAgain : labels.save}}</button></view>
+  </view>
+  <view wx:if="{{errorMessage}}" class="error-bar" bindtap="openSettings">{{errorMessage}}</view>
+</view>

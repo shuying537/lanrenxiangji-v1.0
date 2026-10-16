@@ -1,0 +1,21 @@
+<view class="editor-page">
+  <view class="editor-preview">
+    <image wx:if="{{previewPath}}" class="editor-image" mode="aspectFit" src="{{compareOriginal ? sourcePath : previewPath}}"></image>
+    <view wx:if="{{compareOriginal}}" class="compare-badge">原图对比</view>
+  </view>
+
+  <view class="editor-section">
+    <view class="editor-section-title">比例裁剪</view>
+    <scroll-view scroll-x class="choice-scroll"><view class="choice-row"><view wx:for="{{ratioOptions}}" wx:key="value" class="choice-pill {{currentRatio === item.value ? 'choice-active' : ''}}" data-value="{{item.value}}" bindtap="selectRatio">{{item.label}}</view></view></scroll-view>
+  </view>
+
+  <view class="editor-section">
+    <view class="editor-section-title">基础风格</view>
+    <scroll-view scroll-x class="choice-scroll"><view class="choice-row"><view wx:for="{{filterOptions}}" wx:key="value" class="choice-pill {{currentFilter === item.value ? 'choice-active' : ''}}" data-value="{{item.value}}" bindtap="selectFilter">{{item.label}}</view></view></scroll-view>
+  </view>
+
+  <view class="editor-hint">比例和风格会写入导出的新照片，原始照片不会被修改。</view>
+  <view class="editor-actions"><button class="secondary-button" bindtap="toggleCompare">{{compareOriginal ? '返回编辑结果' : '查看原图'}}</button><button class="primary-button" bindtap="saveEdited">{{saving ? '保存中…' : '保存到相册'}}</button></view>
+  <canvas canvas-id="editorCanvas" class="editor-canvas" style="width:{{canvasWidth}}px;height:{{canvasHeight}}px;"></canvas>
+  <view wx:if="{{errorMessage}}" class="editor-error" bindtap="openSettings">{{errorMessage}}</view>
+</view>

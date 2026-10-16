@@ -1,0 +1,6 @@
+<view class="page me-page">
+  <view class="section-title">{{labels.mine}}</view><view class="profile-card"><view class="profile-icon">LC</view><view><view class="profile-title">{{labels.keep}}</view><view class="profile-note">{{labels.localOnly}}</view></view></view>
+  <view class="section-title small-title">{{labels.favorites}}</view><view wx:if="{{favorites.length}}" class="simple-list"><view wx:for="{{favorites}}" wx:key="id" class="simple-item" data-id="{{item.id}}" bindtap="openTemplate"><text>{{item.title}}</text><text class="recent-arrow">&gt;</text></view></view><view wx:else class="empty-card">{{labels.noFavorites}}</view>
+  <view class="section-title small-title recent-title">{{labels.recent}}</view><view wx:if="{{recent.length}}" class="simple-list"><view wx:for="{{recent}}" wx:key="id" class="simple-item" data-id="{{item.id}}" bindtap="openTemplate"><text>{{item.title}}</text><text class="recent-arrow">&gt;</text></view></view><view wx:else class="empty-card">{{labels.noRecent}}</view>
+  <view class="privacy-card"><view class="info-label">{{labels.privacy}}</view><view class="profile-note">{{labels.privacyText}}</view></view><button class="secondary-button clear-button" bindtap="clearLocalData">{{labels.clear}}</button>
+</view>

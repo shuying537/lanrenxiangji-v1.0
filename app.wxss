@@ -1,0 +1,15 @@
+page { background: #f7f4ef; color: #222; font-family: sans-serif; font-size: 28rpx; }
+view, text, button, image { box-sizing: border-box; }
+button::after { border: none; }
+.page { min-height: 100vh; padding: 36rpx 32rpx 48rpx; }
+.muted { color: #8b8175; }
+.section-title { font-size: 38rpx; font-weight: 700; margin-bottom: 12rpx; }
+.section-subtitle { color: #8b8175; font-size: 25rpx; line-height: 1.6; }
+.primary-button { background: #222; border-radius: 999rpx; color: #fff; font-size: 28rpx; height: 88rpx; line-height: 88rpx; }
+.secondary-button { background: #fff; border: 1rpx solid #ded7ce; border-radius: 999rpx; color: #222; font-size: 27rpx; height: 82rpx; line-height: 80rpx; }
+
+.shot-preview { background: #d5c7b3; height: 270rpx; overflow: hidden; position: relative; }
+.mock-person { background: #292725; border-radius: 50% 50% 15% 15%; bottom: 12%; height: 42%; left: 24%; position: absolute; width: 24%; }
+.mock-person:before { background: #3b3630; border-radius: 50%; content: ""; height: 34%; left: 28%; position: absolute; top: -24%; width: 44%; }
+.mock-landmark { border-bottom: 110rpx solid rgba(255,255,255,.62); border-left: 70rpx solid transparent; border-right: 70rpx solid transparent; bottom: 24%; position: absolute; right: 6%; transform: scaleX(.8); }
+.visual-landmark { background: linear-gradient(135deg,#c9b28d,#e9dcc8 55%,#8c9a8f); }
