@@ -1,15 +1,232 @@
-page { background: #f7f4ef; color: #222; font-family: sans-serif; font-size: 28rpx; }
-view, text, button, image { box-sizing: border-box; }
-button::after { border: none; }
-.page { min-height: 100vh; padding: 36rpx 32rpx 48rpx; }
-.muted { color: #8b8175; }
-.section-title { font-size: 38rpx; font-weight: 700; margin-bottom: 12rpx; }
-.section-subtitle { color: #8b8175; font-size: 25rpx; line-height: 1.6; }
-.primary-button { background: #222; border-radius: 999rpx; color: #fff; font-size: 28rpx; height: 88rpx; line-height: 88rpx; }
-.secondary-button { background: #fff; border: 1rpx solid #ded7ce; border-radius: 999rpx; color: #222; font-size: 27rpx; height: 82rpx; line-height: 80rpx; }
+page {
+  background: #f7f4ef;
+  color: #222;
+  font-family: sans-serif;
+  font-size: 28rpx;
+}
 
-.shot-preview { background: #d5c7b3; height: 270rpx; overflow: hidden; position: relative; }
-.mock-person { background: #292725; border-radius: 50% 50% 15% 15%; bottom: 12%; height: 42%; left: 24%; position: absolute; width: 24%; }
-.mock-person:before { background: #3b3630; border-radius: 50%; content: ""; height: 34%; left: 28%; position: absolute; top: -24%; width: 44%; }
-.mock-landmark { border-bottom: 110rpx solid rgba(255,255,255,.62); border-left: 70rpx solid transparent; border-right: 70rpx solid transparent; bottom: 24%; position: absolute; right: 6%; transform: scaleX(.8); }
-.visual-landmark { background: linear-gradient(135deg,#c9b28d,#e9dcc8 55%,#8c9a8f); }
+view,
+text,
+button,
+image {
+  box-sizing: border-box;
+}
+
+button::after {
+  border: none;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 36rpx 32rpx 48rpx;
+}
+
+.muted {
+  color: #8b8175;
+}
+
+.section-title {
+  font-size: 38rpx;
+  font-weight: 700;
+  margin-bottom: 12rpx;
+}
+
+.section-subtitle {
+  color: #8b8175;
+  font-size: 25rpx;
+  line-height: 1.6;
+}
+
+.primary-button {
+  background: #222;
+  border-radius: 999rpx;
+  color: #fff;
+  font-size: 28rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+
+.secondary-button {
+  background: #fff;
+  border: 1rpx solid #ded7ce;
+  border-radius: 999rpx;
+  color: #222;
+  font-size: 27rpx;
+  height: 82rpx;
+  line-height: 80rpx;
+}
+
+.button-disabled {
+  opacity: .6;
+}
+
+.shot-preview {
+  background: #d5c7b3;
+  height: 270rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.mock-person {
+  background: #292725;
+  border-radius: 50% 50% 15% 15%;
+  bottom: 12%;
+  height: 42%;
+  left: 24%;
+  position: absolute;
+  width: 24%;
+}
+
+.mock-person:before {
+  background: #3b3630;
+  border-radius: 50%;
+  content: "";
+  height: 34%;
+  left: 28%;
+  position: absolute;
+  top: -24%;
+  width: 44%;
+}
+
+.mock-landmark {
+  border-bottom: 110rpx solid rgba(255, 255, 255, .62);
+  border-left: 70rpx solid transparent;
+  border-right: 70rpx solid transparent;
+  bottom: 24%;
+  position: absolute;
+  right: 6%;
+  transform: scaleX(.8);
+}
+
+.visual-landmark {
+  background: linear-gradient(135deg, #c9b28d, #e9dcc8 55%, #8c9a8f);
+}
+
+.visual-lines {
+  background: linear-gradient(155deg, #b8b3a8, #e6d8c6 55%, #9f9a8e);
+}
+
+.visual-lines .mock-person {
+  left: 57%;
+}
+
+.visual-lines .mock-landmark {
+  border-bottom-width: 190rpx;
+  border-left-width: 130rpx;
+  border-right-width: 30rpx;
+  right: 25%;
+}
+
+.visual-frame {
+  background: linear-gradient(130deg, #6d7d70, #d8c8b1 48%, #a8b9a3);
+}
+
+.visual-frame:before {
+  border: 34rpx solid rgba(49, 69, 53, .75);
+  content: "";
+  height: 78%;
+  left: -4%;
+  position: absolute;
+  top: 11%;
+  width: 48%;
+}
+
+.visual-frame .mock-person {
+  left: 62%;
+}
+
+.visual-window {
+  background: linear-gradient(120deg, #b8cbd0, #f2e2c9 54%, #8e9a94);
+}
+
+.visual-window .mock-person {
+  left: 41%;
+  width: 30%;
+}
+
+.visual-table {
+  background: linear-gradient(170deg, #ddd1bf, #ae997f 55%, #6c5b4b);
+}
+
+.visual-table:after {
+  background: rgba(255, 255, 255, .55);
+  border-radius: 50%;
+  bottom: 20%;
+  content: "";
+  height: 34rpx;
+  left: 65%;
+  position: absolute;
+  width: 34rpx;
+}
+
+.visual-table .mock-person {
+  left: 28%;
+}
+
+.visual-side {
+  background: linear-gradient(135deg, #c8d5d0, #e6d3bd 52%, #78918c);
+}
+
+.visual-side .mock-person {
+  left: 16%;
+}
+
+.visual-couple {
+  background: linear-gradient(135deg, #d8c4b0, #f1e4d1 52%, #9ca69e);
+}
+
+.visual-couple .mock-person {
+  left: 21%;
+  width: 20%;
+}
+
+.visual-couple .mock-person:after {
+  background: #37342e;
+  border-radius: 50% 50% 15% 15%;
+  bottom: 0;
+  content: "";
+  height: 100%;
+  left: 170%;
+  position: absolute;
+  width: 100%;
+}
+
+.visual-depth {
+  background: linear-gradient(135deg, #c8b9a5, #e7d7c2 55%, #8e9d91);
+}
+
+.visual-depth .mock-person {
+  left: 46%;
+  transform: scale(1.2);
+}
+
+.visual-depth .mock-person:after {
+  background: #48433a;
+  border-radius: 50% 50% 15% 15%;
+  bottom: 3%;
+  content: "";
+  height: 70%;
+  left: -130%;
+  opacity: .75;
+  position: absolute;
+  width: 75%;
+}
+
+.visual-interact {
+  background: linear-gradient(135deg, #c8d2c4, #e7d0bb 58%, #9c836d);
+}
+
+.visual-interact .mock-person {
+  left: 24%;
+}
+
+.visual-interact .mock-person:after {
+  background: #3f3931;
+  border-radius: 50% 50% 15% 15%;
+  bottom: 0;
+  content: "";
+  height: 100%;
+  left: 175%;
+  position: absolute;
+  width: 100%;
+}

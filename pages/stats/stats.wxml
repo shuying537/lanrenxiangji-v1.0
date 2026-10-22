@@ -1,0 +1,55 @@
+<view class="page stats-page">
+  <view class="section-title">{{labels.title}}</view>
+  <view class="section-subtitle">{{labels.subtitle}}</view>
+
+  <block wx:if="{{hasData}}">
+    <view class="stats-grid">
+      <view wx:for="{{metrics}}" wx:key="key" class="stat-tile">
+        <view class="stat-value">{{item.count}}</view>
+        <view class="stat-label">{{item.label}}</view>
+      </view>
+    </view>
+
+    <view class="stats-card">
+      <view class="stats-card-head">
+        <view class="stats-card-title">{{labels.funnel}}</view>
+        <text class="stats-hint">{{labels.funnelHint}}</text>
+      </view>
+      <view wx:for="{{rates}}" wx:key="key" class="rate-row">
+        <view class="rate-head">
+          <text>{{item.label}}</text>
+          <text class="rate-value">{{item.text}}</text>
+        </view>
+        <view class="rate-track">
+          <view class="rate-fill" style="width:{{item.value}}%"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="stats-card">
+      <view class="stats-card-head">
+        <view class="stats-card-title">{{labels.top}}</view>
+        <text class="stats-hint">{{labels.topHint}}</text>
+      </view>
+      <view wx:for="{{topTemplates}}" wx:key="id" class="rank-row">
+        <view class="rank-index">{{index + 1}}</view>
+        <view class="rank-copy">
+          <view class="rank-title">{{item.title}}</view>
+          <view class="rank-sub">浏览 {{item.views}} · 拍摄 {{item.starts}} · 保存 {{item.saves}} · 分享 {{item.shares}}</view>
+        </view>
+      </view>
+      <view wx:if="{{!topTemplates.length}}" class="stats-inline-empty">还没有模板相关数据。</view>
+    </view>
+
+    <button class="secondary-button stats-clear" bindtap="clearStats">{{labels.clear}}</button>
+  </block>
+
+  <view wx:else class="stats-empty">
+    <view class="stats-empty-title">{{labels.emptyTitle}}</view>
+    <view class="stats-empty-text">{{labels.emptyText}}</view>
+    <button class="primary-button stats-empty-button" bindtap="goHome">{{labels.emptyAction}}</button>
+  </view>
+
+  <view class="stats-note">不会上传服务器；最多保留最近 {{eventLimit}} 条事件，清理小程序缓存也会一并删除。</view>
+  <view wx:if="{{hasData}}" class="stats-total">本机共记录 {{totalEvents}} 条事件</view>
+</view>

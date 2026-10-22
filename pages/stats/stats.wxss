@@ -1,0 +1,174 @@
+.stats-grid {
+  display: grid;
+  gap: 16rpx;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 30rpx;
+}
+
+.stat-tile {
+  background: #2b2926;
+  border-radius: 22rpx;
+  color: #fff;
+  padding: 25rpx;
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.stat-label {
+  color: #c9bbaa;
+  font-size: 22rpx;
+  margin-top: 10rpx;
+}
+
+.stats-card {
+  background: #fff;
+  border-radius: 22rpx;
+  margin-top: 24rpx;
+  padding: 26rpx;
+}
+
+.stats-card-head {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.stats-card-title {
+  font-size: 29rpx;
+  font-weight: 700;
+}
+
+.stats-hint {
+  color: #9a8e81;
+  font-size: 20rpx;
+}
+
+.rate-row {
+  margin-top: 20rpx;
+}
+
+.rate-head {
+  align-items: center;
+  color: #64584c;
+  display: flex;
+  font-size: 23rpx;
+  justify-content: space-between;
+}
+
+.rate-value {
+  color: #282421;
+  font-size: 23rpx;
+  font-weight: 700;
+}
+
+.rate-track {
+  background: #f1e7dc;
+  border-radius: 999rpx;
+  height: 12rpx;
+  margin-top: 9rpx;
+  overflow: hidden;
+}
+
+.rate-fill {
+  background: #c59462;
+  border-radius: 999rpx;
+  height: 100%;
+}
+
+.rank-row {
+  align-items: center;
+  display: flex;
+  padding: 19rpx 0;
+}
+
+.rank-row + .rank-row {
+  border-top: 1rpx solid #eee6dd;
+}
+
+.rank-index {
+  align-items: center;
+  background: #f1e7dc;
+  border-radius: 50%;
+  color: #64584c;
+  display: flex;
+  flex: 0 0 auto;
+  font-size: 21rpx;
+  font-weight: 700;
+  height: 38rpx;
+  justify-content: center;
+  margin-right: 16rpx;
+  width: 38rpx;
+}
+
+.rank-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.rank-title {
+  font-size: 25rpx;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.rank-sub {
+  color: #9a8e81;
+  font-size: 20rpx;
+  margin-top: 6rpx;
+}
+
+.stats-inline-empty {
+  color: #9a8e81;
+  font-size: 23rpx;
+  padding: 22rpx 0 4rpx;
+}
+
+.stats-clear {
+  margin-top: 26rpx;
+  width: 100%;
+}
+
+.stats-empty {
+  align-items: center;
+  background: #fff;
+  border-radius: 22rpx;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30rpx;
+  padding: 64rpx 32rpx;
+  text-align: center;
+}
+
+.stats-empty-title {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.stats-empty-text {
+  color: #8b8175;
+  font-size: 24rpx;
+  line-height: 1.6;
+  margin-top: 12rpx;
+}
+
+.stats-empty-button {
+  margin-top: 28rpx;
+  width: 300rpx;
+}
+
+.stats-note {
+  color: #9a8e81;
+  font-size: 21rpx;
+  line-height: 1.6;
+  margin-top: 24rpx;
+}
+
+.stats-total {
+  color: #9a8e81;
+  font-size: 20rpx;
+  margin-top: 8rpx;
+}

@@ -1,10 +1,100 @@
+<view wx:if="{{notFound}}" class="page template-missing">{{labels.missing}}</view>
+
 <view wx:if="{{template}}" class="page template-page">
-  <view class="detail-visual shot-preview {{template.visualClass}}"><view class="mock-person"></view><view class="mock-landmark"></view><view class="visual-badge">{{template.categoryName}}</view></view>
-  <view class="detail-head"><view><view class="section-title">{{template.title}}</view><view class="template-tags"><text>{{template.people}}</text><text>{{template.orientation}}</text><text>{{template.difficulty}}</text></view></view><view class="favorite {{isFavorite ? 'favorite-active' : ''}}" bindtap="toggleFavorite">{{isFavorite ? labels.favoriteOn : labels.favoriteOff}}</view></view>
-  <view class="sample-card"><view class="sample-head"><view><view class="sample-title">示例构图</view><view class="sample-note">先看人物和主体的大致位置，再打开相机照着摆。</view></view><text class="sample-tag">{{template.orientation}}</text></view><view class="sample-visual shot-preview {{template.visualClass}}"><view class="mock-person"></view><view class="mock-landmark"></view><view class="sample-grid-line sample-grid-v1"></view><view class="sample-grid-line sample-grid-v2"></view><view class="sample-grid-line sample-grid-h1"></view><view class="sample-grid-line sample-grid-h2"></view></view></view>
-  <view class="problem-card"><view class="eyebrow dark-eyebrow">{{labels.problem}}</view><view class="problem-text">{{template.problem}}</view></view>
-  <view class="guide-card"><view class="guide-title">{{labels.guide}}</view><view class="guide-row"><view class="guide-icon">1</view><view><view class="guide-label">{{labels.photographer}}</view><view class="guide-text">{{template.cameraGuide}}</view></view></view><view class="guide-row"><view class="guide-icon">2</view><view><view class="guide-label">{{labels.subject}}</view><view class="guide-text">{{template.subjectGuide}}</view></view></view><view class="guide-row"><view class="guide-icon">3</view><view><view class="guide-label">{{labels.focus}}</view><view class="guide-text">{{template.focus}}</view></view></view></view>
-  <view class="info-block"><view class="info-label">{{labels.conditions}}</view><view class="info-text">{{template.conditions}}</view></view><view class="info-block fallback-block"><view class="info-label">{{labels.fallback}}</view><view class="info-text">{{template.fallback}}</view></view>
-  <view class="steps-block"><view class="guide-title">{{labels.steps}}</view><view wx:for="{{template.steps}}" wx:key="*this" class="step-row"><view class="step-number">{{index + 1}}</view><text>{{item}}</text></view></view>
+  <view class="detail-visual shot-preview {{template.visualClass}}">
+    <view class="mock-person"></view>
+    <view class="mock-landmark"></view>
+    <view class="visual-badge">{{template.categoryName}}</view>
+  </view>
+
+  <view class="detail-head">
+    <view class="detail-heading">
+      <view class="section-title">{{template.title}}</view>
+      <view class="template-tags">
+        <text>{{template.people}}</text>
+        <text>{{template.orientation}}</text>
+        <text>{{template.difficulty}}</text>
+      </view>
+    </view>
+    <view class="favorite {{isFavorite ? 'favorite-active' : ''}}" bindtap="toggleFavorite">
+      {{isFavorite ? labels.favoriteOn : labels.favoriteOff}}
+    </view>
+  </view>
+
+  <view class="sample-card">
+    <view class="sample-head">
+      <view>
+        <view class="sample-title">{{labels.sampleTitle}}</view>
+        <view class="sample-note">{{labels.sampleNote}}</view>
+      </view>
+      <text class="sample-tag">{{template.orientation}}</text>
+    </view>
+    <view class="sample-visual shot-preview {{template.visualClass}}">
+      <image
+        wx:if="{{template.sampleImage && !sampleBroken}}"
+        class="sample-image"
+        mode="aspectFill"
+        src="{{template.sampleImage}}"
+        binderror="onSampleError"
+      ></image>
+      <block wx:else>
+        <view class="mock-person"></view>
+        <view class="mock-landmark"></view>
+      </block>
+      <view class="sample-grid-line sample-grid-v1"></view>
+      <view class="sample-grid-line sample-grid-v2"></view>
+      <view class="sample-grid-line sample-grid-h1"></view>
+      <view class="sample-grid-line sample-grid-h2"></view>
+    </view>
+  </view>
+
+  <view class="problem-card">
+    <view class="eyebrow dark-eyebrow">{{labels.problem}}</view>
+    <view class="problem-text">{{template.problem}}</view>
+  </view>
+
+  <view class="guide-card">
+    <view class="guide-title">{{labels.guide}}</view>
+    <view class="guide-row">
+      <view class="guide-icon">1</view>
+      <view class="guide-copy">
+        <view class="guide-label">{{labels.photographer}}</view>
+        <view class="guide-text">{{template.cameraGuide}}</view>
+      </view>
+    </view>
+    <view class="guide-row">
+      <view class="guide-icon">2</view>
+      <view class="guide-copy">
+        <view class="guide-label">{{labels.subject}}</view>
+        <view class="guide-text">{{template.subjectGuide}}</view>
+      </view>
+    </view>
+    <view class="guide-row">
+      <view class="guide-icon">3</view>
+      <view class="guide-copy">
+        <view class="guide-label">{{labels.focus}}</view>
+        <view class="guide-text">{{template.focus}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="info-block">
+    <view class="info-label">{{labels.conditions}}</view>
+    <view class="info-text">{{template.conditions}}</view>
+  </view>
+  <view class="info-block fallback-block">
+    <view class="info-label">{{labels.fallback}}</view>
+    <view class="info-text">{{template.fallback}}</view>
+  </view>
+
+  <view class="steps-block">
+    <view class="guide-title">{{labels.steps}}</view>
+    <view wx:for="{{template.steps}}" wx:key="*this" class="step-row">
+      <view class="step-number">{{index + 1}}</view>
+      <text class="step-text">{{item}}</text>
+    </view>
+  </view>
+
   <button class="primary-button start-button" bindtap="startCamera">{{labels.start}}</button>
+  <button class="secondary-button share-button" open-type="share">{{labels.share}}</button>
 </view>

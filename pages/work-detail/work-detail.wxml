@@ -1,0 +1,41 @@
+<view wx:if="{{notFound}}" class="page detail-missing">
+  <view class="detail-missing-text">{{labels.missing}}</view>
+  <button class="primary-button detail-missing-button" bindtap="backToWorks">{{labels.back}}</button>
+</view>
+
+<view wx:if="{{work}}" class="detail-page">
+  <view class="detail-stage">
+    <image
+      wx:if="{{!work.imageBroken}}"
+      class="detail-image"
+      mode="aspectFit"
+      src="{{work.photoPath}}"
+      binderror="onImageError"
+    ></image>
+    <view wx:else class="detail-image-missing">{{labels.missingImage}}</view>
+  </view>
+
+  <view class="detail-card">
+    <view class="detail-title">{{template ? template.title : labels.title}}</view>
+    <view class="detail-meta">{{work.ratioLabel}} · {{work.filterLabel}}</view>
+    <view class="detail-actions">
+      <button
+        wx:if="{{template}}"
+        class="secondary-button detail-button"
+        bindtap="shootAgain"
+      >{{labels.shootAgain}}</button>
+      <button
+        class="secondary-button detail-button {{work.imageBroken ? 'button-disabled' : ''}}"
+        bindtap="editWork"
+        disabled="{{saving || work.imageBroken}}"
+      >{{labels.edit}}</button>
+      <button
+        class="primary-button detail-button {{saving || work.imageBroken ? 'button-disabled' : ''}}"
+        bindtap="saveWork"
+        disabled="{{saving || work.imageBroken}}"
+      >{{saving ? labels.saving : labels.save}}</button>
+    </view>
+    <button class="secondary-button detail-share" open-type="share" disabled="{{saving}}">{{labels.share}}</button>
+    <view wx:if="{{errorMessage}}" class="detail-error" bindtap="handleErrorTap">{{errorMessage}}</view>
+  </view>
+</view>

@@ -1,8 +1,93 @@
 <view class="page home-page">
-  <view class="hero"><view class="brand-row"><view class="brand-mark">LC</view><text class="brand-name">{{title}}</text></view><view class="hero-title">{{subtitle}}</view><view class="hero-note">{{labels.heroNote}}</view></view>
-  <view class="featured-card" bindtap="openFeatured"><view class="featured-copy"><text class="eyebrow">{{labels.featured}}</text><text class="featured-title">{{featured.title}}</text><text class="featured-desc">{{featured.problem}}</text><view class="featured-link">{{labels.start}}</view></view><view class="shot-preview featured-preview {{featured.visualClass}}"><view class="mock-person"></view><view class="mock-landmark"></view></view></view>
-  <view class="section-head"><view class="section-title">{{labels.chooseScene}}</view><view class="section-subtitle">{{labels.sceneNote}}</view></view>
-  <scroll-view class="category-scroll" scroll-x><view class="category-row"><view wx:for="{{categories}}" wx:key="id" class="category-pill {{activeCategory === item.id ? 'category-active' : ''}}" data-category="{{item.id}}" bindtap="selectCategory">{{item.name}}</view></view></scroll-view>
-  <view class="template-grid"><view wx:for="{{visibleTemplates}}" wx:key="id" class="template-card" data-id="{{item.id}}" bindtap="openTemplate"><view class="shot-preview {{item.visualClass}}"><view class="mock-person"></view><view class="mock-landmark"></view></view><view class="template-meta"><view class="template-title">{{item.shortTitle}}</view><view class="template-tags"><text>{{item.people}}</text><text>{{item.orientation}}</text></view></view></view></view>
-  <view wx:if="{{recentTemplates.length}}" class="recent-section"><view class="section-title small-title">{{labels.recent}}</view><view wx:for="{{recentTemplates}}" wx:key="id" class="recent-item" data-id="{{item.id}}" bindtap="openTemplate"><view class="recent-dot"></view><text>{{item.title}}</text><text class="recent-arrow">&gt;</text></view></view>
+  <view class="hero">
+    <view class="brand-row">
+      <view class="brand-mark">LC</view>
+      <text class="brand-name">{{title}}</text>
+    </view>
+    <view class="hero-title">{{subtitle}}</view>
+    <view class="hero-note">{{labels.heroNote}}</view>
+    <button class="album-entry" bindtap="openAlbum">{{labels.albumEntry}}</button>
+  </view>
+
+  <view class="featured-card" bindtap="openFeatured">
+    <view class="featured-copy">
+      <text class="eyebrow">{{labels.featured}}</text>
+      <text class="featured-title">{{featured.title}}</text>
+      <text class="featured-desc">{{featured.problem}}</text>
+      <view class="featured-link">{{labels.start}}</view>
+    </view>
+    <view class="shot-preview featured-preview {{featured.visualClass}}">
+      <view class="mock-person"></view>
+      <view class="mock-landmark"></view>
+      <image
+        wx:if="{{!featured.imageBroken}}"
+        class="preview-image"
+        mode="aspectFill"
+        src="{{featured.sampleImage}}"
+        data-id="{{featured.id}}"
+        data-scope="featured"
+        binderror="onImageError"
+      ></image>
+    </view>
+  </view>
+
+  <view class="section-head">
+    <view class="section-title">{{labels.chooseScene}}</view>
+    <view class="section-subtitle">{{labels.sceneNote}}</view>
+  </view>
+
+  <scroll-view class="category-scroll" scroll-x>
+    <view class="category-row">
+      <view
+        wx:for="{{categories}}"
+        wx:key="id"
+        class="category-pill {{activeCategory === item.id ? 'category-active' : ''}}"
+        data-category="{{item.id}}"
+        bindtap="selectCategory"
+      >{{item.name}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="template-grid">
+    <view
+      wx:for="{{visibleTemplates}}"
+      wx:key="id"
+      class="template-card"
+      data-id="{{item.id}}"
+      bindtap="openTemplate"
+    >
+      <view class="shot-preview {{item.visualClass}}">
+        <view class="mock-person"></view>
+        <view class="mock-landmark"></view>
+        <image
+          wx:if="{{!item.imageBroken}}"
+          class="preview-image"
+          mode="aspectFill"
+          lazy-load
+          src="{{item.sampleImage}}"
+          data-id="{{item.id}}"
+          binderror="onImageError"
+        ></image>
+      </view>
+      <view class="template-meta">
+        <view class="template-title">{{item.shortTitle}}</view>
+        <view class="template-tags"><text>{{item.people}}</text><text>{{item.orientation}}</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{recentTemplates.length}}" class="recent-section">
+    <view class="section-title small-title">{{labels.recent}}</view>
+    <view
+      wx:for="{{recentTemplates}}"
+      wx:key="id"
+      class="recent-item"
+      data-id="{{item.id}}"
+      bindtap="openTemplate"
+    >
+      <view class="recent-dot"></view>
+      <text>{{item.title}}</text>
+      <text class="recent-arrow">&gt;</text>
+    </view>
+  </view>
 </view>

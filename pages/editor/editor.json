@@ -1,1 +1,6 @@
-{"navigationBarTitleText":"调整照片","disableScroll":true}
+{
+  "navigationBarTitleText": "调整照片",
+  "navigationBarBackgroundColor": "#171615",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#171615"
+}

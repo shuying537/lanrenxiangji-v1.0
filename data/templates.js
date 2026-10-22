@@ -1,15 +1,273 @@
-const make = (id, category, categoryName, title, visualClass, people, orientation, problem, cameraGuide, subjectGuide, focus, conditions, fallback, steps, overlay) => ({ id, category, categoryName, title, shortTitle: title.split('\u00b7')[0], visualClass, people, orientation, difficulty: '\u5165\u95e8', problem, cameraGuide, subjectGuide, focus, conditions, fallback, steps, overlay });
+const sampleImages = {
+  'travel-landmark': '/images/templates/travel-landmark.jpg',
+  'travel-lines': '/images/templates/travel-lines.jpg',
+  'travel-frame': '/images/templates/travel-frame.jpg',
+  'cafe-window': '/images/templates/cafe-window.jpg',
+  'cafe-table': '/images/templates/cafe-table.jpg',
+  'cafe-side': '/images/templates/cafe-side.jpg',
+  'couple-side': '/images/templates/couple-side.jpg',
+  'couple-depth': '/images/templates/couple-depth.jpg',
+  'couple-interact': '/images/templates/couple-interact.jpg'
+};
 
 const templates = [
-  make('travel-landmark','travel','\u65c5\u884c/\u666f\u70b9','\u5730\u6807\u540c\u6846\u00b7\u5355\u4eba\u5168\u8eab','visual-landmark','\u5355\u4eba','\u7ad6\u5e45','\u8ba9\u4eba\u7269\u548c\u5730\u6807\u90fd\u5b8c\u6574\u51fa\u73b0\u3002','\u62cd\u6444\u8005\uff1a\u9000\u540e 3\u20145 \u6b65\uff0c\u624b\u673a\u653e\u5728\u80f8\u53e3\u9ad8\u5ea6\u3002','\u88ab\u62cd\u8005\uff1a\u7ad9\u5728\u753b\u9762\u5de6\u4e0b\u65b9\uff0c\u8eab\u4f53\u8f7b\u8f6c\u5411\u5730\u6807\u3002','\u5e73\u89c6\u6216\u8f7b\u5fae\u4f4e\u673a\u4f4d\uff0c\u9876\u90e8\u7ed9\u5730\u6807\u7559\u7a7a\u95f4\u3002','\u9002\u5408\u5355\u4eba\u3001\u7ad6\u62cd\uff1b\u4eba\u7269\u8ddd\u80cc\u666f 1\u20143 \u7c73\u3002','\u5730\u6807\u653e\u4e0d\u5168\u65f6\uff0c\u6539\u62cd\u534a\u8eab\u5e76\u4fdd\u7559\u6807\u5fd7\u6027\u5c40\u90e8\u3002',['\u8ba9\u4eba\u7269\u7ad9\u5230\u4eba\u7269\u6846\u5185\u5de6\u4e0b\u65b9\u3002','\u8ba9\u5730\u6807\u4f4d\u4e8e\u62cd\u6444\u5bf9\u8c61\u6846\u5185\u3002','\u4fdd\u6301\u624b\u673a\u7a33\u5b9a\uff0c\u6309\u5feb\u95e8\u62cd\u6444\u3002'],{ personLabel:'\u4eba\u7269\u7ad9\u8fd9\u91cc',objectLabel:'\u5730\u6807\u653e\u8fd9\u91cc',personClass:'person-left-bottom',objectClass:'object-right-top'}),
-  make('travel-lines','travel','\u65c5\u884c/\u666f\u70b9','\u5efa\u7b51\u7ebf\u6761\u5f15\u5bfc\u00b7\u4fa7\u8eab','visual-lines','\u5355\u4eba','\u7ad6\u5e45','\u7528\u5efa\u7b51\u7ebf\u6761\u5e2e\u753b\u9762\u53d8\u5f97\u66f4\u6709\u65b9\u5411\u3002','\u62cd\u6444\u8005\uff1a\u627e\u5230\u5efa\u7b51\u8fb9\u7ebf\uff0c\u955c\u5934\u4fdd\u6301\u6c34\u5e73\u3002','\u88ab\u62cd\u8005\uff1a\u7ad9\u5728\u7ebf\u6761\u4e00\u4fa7\uff0c\u8eab\u4f53\u8f7b\u8f6c\uff0c\u770b\u5411\u524d\u65b9\u3002','\u8ba9\u7ebf\u6761\u4ece\u753b\u9762\u8fb9\u7f18\u5ef6\u5411\u4eba\u7269\u3002','\u9700\u8981\u6709\u660e\u663e\u5efa\u7b51\u6216\u9053\u8def\u7ebf\u6761\u3002','\u80cc\u666f\u592a\u4e71\u65f6\uff0c\u6539\u62cd\u534a\u8eab\u5e76\u9760\u8fd1\u7ebf\u6761\u80cc\u666f\u3002',['\u8ba9\u7ebf\u6761\u4ece\u753b\u9762\u4e0b\u65b9\u8fdb\u5165\u3002','\u8ba9\u4eba\u7269\u7ad9\u5728\u4eba\u7269\u6846\u5185\u3001\u9760\u8fd1\u7ebf\u6761\u3002','\u4fdd\u6301\u955c\u5934\u6c34\u5e73\u540e\u62cd\u6444\u3002'],{ personLabel:'\u4eba\u7269\u7ad9\u8fd9\u91cc',objectLabel:'\u5efa\u7b51\u7ebf\u6761\u4ece\u8fd9\u91cc\u8fdb\u5165',personClass:'person-right-bottom',objectClass:'object-line-bottom'}),
-  make('travel-frame','travel','\u65c5\u884c/\u666f\u70b9','\u524d\u666f\u6846\u666f\u00b7\u4eba\u7269\u7559\u767d','visual-frame','\u5355\u4eba','\u7ad6\u5e45','\u7528\u524d\u666f\u8ba9\u666f\u8272\u66f4\u6709\u5c42\u6b21\u3002','\u62cd\u6444\u8005\uff1a\u9760\u8fd1\u4e00\u4e2a\u6846\u5b50\u6216\u53f6\u7247\u3002','\u88ab\u62cd\u8005\uff1a\u7ad9\u5728\u524d\u666f\u540e\u65b9\uff0c\u4fdd\u7559\u4e00\u4fa7\u7559\u767d\u3002','\u524d\u666f\u53ea\u5360\u8fb9\u7f18\uff0c\u4e0d\u8981\u906e\u4f4f\u8138\u90e8\u3002','\u9002\u5408\u6709\u95e8\u6846\u3001\u7a97\u6846\u6216\u53f6\u7247\u7684\u73af\u5883\u3002','\u627e\u4e0d\u5230\u524d\u666f\u65f6\uff0c\u4f7f\u7528\u5899\u9762\u6216\u680f\u6746\u4f5c\u6846\u3002',['\u627e\u5230\u53ef\u4ee5\u9760\u8fd1\u7684\u524d\u666f\u7269\u3002','\u8ba9\u524d\u666f\u4f4d\u4e8e\u524d\u666f\u6846\u5185\u3001\u9760\u8fd1\u753b\u9762\u8fb9\u7f18\u3002','\u8c03\u6574\u4eba\u7269\u5230\u4eba\u7269\u6846\u7559\u767d\u533a\u57df\u3002'],{ personLabel:'\u4eba\u7269\u7ad9\u5728\u7559\u767d\u533a',objectLabel:'\u524d\u666f\u6846\u653e\u8fd9\u91cc',personClass:'person-right-middle',objectClass:'object-edge-left'}),
-  make('cafe-window','cafe','\u5496\u5561\u9986/\u5ba4\u5185','\u7a97\u8fb9\u5750\u59ff\u00b7\u534a\u8eab','visual-window','\u5355\u4eba','\u7ad6\u5e45','\u8ba9\u5ba4\u5185\u5750\u59ff\u7167\u4e0d\u663e\u50f5\u3002','\u62cd\u6444\u8005\uff1a\u5728\u684c\u8fb9\u4fdd\u6301\u4e0e\u773c\u775b\u5e73\u9f50\u3002','\u88ab\u62cd\u8005\uff1a\u9760\u8fd1\u7a97\u8fb9\uff0c\u8eab\u4f53\u8f7b\u8f6c\u5411\u5149\u6e90\u3002','\u4fdd\u7559\u7a97\u5916\u73af\u5883\uff0c\u8ba9\u8138\u90e8\u660e\u4eae\u3002','\u9002\u5408\u9760\u7a97\u3001\u6709\u81ea\u7136\u5149\u7684\u5ea7\u4f4d\u3002','\u5149\u7ebf\u4e0d\u8db3\u65f6\uff0c\u6539\u4e3a\u9762\u5411\u5149\u6e90\u7684\u534a\u8eab\u7167\u3002',['\u8ba9\u4eba\u7269\u5750\u5230\u4eba\u7269\u6846\u5185\u3002','\u8ba9\u7a97\u6237\u548c\u5149\u7ebf\u4f4d\u4e8e\u62cd\u6444\u5bf9\u8c61\u6846\u5185\u3002','\u773c\u775b\u770b\u5411\u5149\u6e90\u65c1\u8fb9\u3002'],{ personLabel:'\u4eba\u7269\u5750\u8fd9\u91cc',objectLabel:'\u7a97\u6237/\u5149\u7ebf\u653e\u8fd9\u91cc',personClass:'person-left-middle',objectClass:'object-window-right'}),
-  make('cafe-table','cafe','\u5496\u5561\u9986/\u5ba4\u5185','\u684c\u8fb9\u751f\u6d3b\u611f\u00b7\u624b\u90e8\u52a8\u4f5c','visual-table','\u5355\u4eba','\u7ad6\u5e45','\u7528\u624b\u90e8\u4e92\u52a8\u8ba9\u5ba4\u5185\u7167\u66f4\u81ea\u7136\u3002','\u62cd\u6444\u8005\uff1a\u8ddd\u79bb\u684c\u8fb9\u4e00\u6b65\uff0c\u62cd\u534a\u8eab\u548c\u684c\u9762\u3002','\u88ab\u62cd\u8005\uff1a\u8f7b\u8f7b\u62ff\u8d77\u676f\u5b50\u6216\u4e66\u672c\u3002','\u8ba9\u624b\u90e8\u6709\u52a8\u4f5c\uff0c\u8138\u90e8\u4fdd\u6301\u653e\u677e\u3002','\u9700\u8981\u684c\u5b50\u548c\u4e00\u4e2a\u53ef\u4e92\u52a8\u7684\u7269\u54c1\u3002','\u6ca1\u6709\u9053\u5177\u65f6\uff0c\u7528\u624b\u6491\u4f4f\u4e0b\u5df4\u3002',['\u8ba9\u684c\u9762\u5360\u753b\u9762\u4e0b\u65b9\u4e09\u5206\u4e4b\u4e00\u3002','\u8ba9\u624b\u548c\u9053\u5177\u4f4d\u4e8e\u62cd\u6444\u5bf9\u8c61\u6846\u5185\u3002','\u4e0d\u8981\u76f4\u76ef\u955c\u5934\uff0c\u770b\u5411\u624b\u4e2d\u7269\u54c1\u3002'],{ personLabel:'\u4eba\u7269\u5750\u8fd9\u91cc',objectLabel:'\u684c\u9762\u548c\u9053\u5177\u653e\u8fd9\u91cc',personClass:'person-right-middle',objectClass:'object-table-bottom'}),
-  make('cafe-side','cafe','\u5496\u5561\u9986/\u5ba4\u5185','\u4fa7\u8eab\u770b\u7a97\u5916\u00b7\u73af\u5883\u4eba\u50cf','visual-side','\u5355\u4eba','\u6a2a\u5e45','\u8ba9\u4eba\u7269\u548c\u5ba4\u5185\u73af\u5883\u540c\u65f6\u6210\u4e3a\u4e3b\u4f53\u3002','\u62cd\u6444\u8005\uff1a\u4fdd\u7559\u7a97\u6237\u548c\u4e00\u90e8\u684c\u9762\u3002','\u88ab\u62cd\u8005\uff1a\u8eab\u4f53\u4fa7\u5411\u7a97\u6237\uff0c\u773c\u775b\u770b\u5411\u5916\u9762\u3002','\u4eba\u7269\u4e0d\u8981\u7ad9\u5728\u753b\u9762\u6b63\u4e2d\uff0c\u7ed9\u7a97\u5916\u7559\u7a7a\u95f4\u3002','\u9002\u5408\u7a97\u5916\u6709\u8857\u666f\u6216\u98ce\u666f\u7684\u5ba4\u5185\u73af\u5883\u3002','\u7a97\u5916\u666f\u8272\u4e0d\u597d\u65f6\uff0c\u6539\u62cd\u5ba4\u5185\u5899\u9762\u548c\u684c\u9762\u3002',['\u8ba9\u4eba\u7269\u7ad9\u5230\u4eba\u7269\u6846\u5185\u4e00\u4fa7\u3002','\u8ba9\u7a97\u5916\u6216\u5ba4\u5185\u7ec6\u8282\u4f4d\u4e8e\u62cd\u6444\u5bf9\u8c61\u6846\u5185\u3002','\u8f7b\u8f7b\u8f6c\u8eab\uff0c\u6309\u5feb\u95e8\u3002'],{ personLabel:'\u4eba\u7269\u7ad9\u8fd9\u91cc',objectLabel:'\u7a97\u5916\u666f\u8272\u653e\u8fd9\u91cc',personClass:'person-left-middle',objectClass:'object-window-right'}),
-  make('couple-side','couple','\u53cc\u4eba\u5408\u7167','\u5e76\u80a9\u7559\u767d\u00b7\u53cc\u4eba\u5408\u7167','visual-couple','\u53cc\u4eba','\u6a2a\u5e45','\u8ba9\u4e24\u4e2a\u4eba\u4e0d\u8d34\u6210\u4e00\u6392\uff0c\u753b\u9762\u66f4\u8f7b\u677e\u3002','\u62cd\u6444\u8005\uff1a\u4fdd\u7559\u4e24\u4eba\u5468\u56f4\u7559\u767d\uff0c\u955c\u5934\u4e0e\u773c\u775b\u5e73\u9f50\u3002','\u4e24\u4eba\uff1a\u80a9\u8180\u4e0d\u5fc5\u5e73\u9f50\uff0c\u4e00\u4eba\u8f7b\u8f7b\u4fa7\u8eab\u3002','\u8ba9\u4e24\u4e2a\u4eba\u4e4b\u95f4\u7559\u4e00\u70b9\u7a7a\u95f4\u3002','\u9002\u5408\u4e24\u4eba\u6a2a\u62cd\u3002','\u7a7a\u95f4\u592a\u5c0f\u65f6\uff0c\u6539\u62cd\u534a\u8eab\u5e76\u9760\u8fd1\u4e24\u4eba\u3002',['\u7b2c\u4e00\u4e2a\u4eba\u7ad9\u5230\u5de6\u4fa7\u4eba\u7269\u6846\u3002','\u7b2c\u4e8c\u4e2a\u4eba\u7ad9\u5230\u53f3\u4fa7\u4eba\u7269\u6846\u3002','\u4e24\u4eba\u540c\u65f6\u770b\u5411\u955c\u5934\u3002'],{ personLabel:'\u4eba\u7269 A \u7ad9\u8fd9\u91cc',objectLabel:'\u4eba\u7269 B \u7ad9\u8fd9\u91cc',personClass:'person-left-wide',objectClass:'person-right-wide'}),
-  make('couple-depth','couple','\u53cc\u4eba\u5408\u7167','\u524d\u540e\u5c42\u6b21\u00b7\u53cc\u4eba\u5408\u7167','visual-depth','\u53cc\u4eba','\u7ad6\u5e45','\u7528\u524d\u540e\u8ddd\u79bb\u8ba9\u53cc\u4eba\u7167\u66f4\u6709\u7acb\u4f53\u611f\u3002','\u62cd\u6444\u8005\uff1a\u4fdd\u6301\u8ddd\u79bb\uff0c\u4ee5\u524d\u9762\u4eba\u7269\u4e3a\u5bf9\u7126\u3002','\u4e00\u4eba\u9760\u8fd1\u955c\u5934\uff0c\u4e00\u4eba\u540e\u9000\u4e00\u6b65\u3002','\u524d\u540e\u4e24\u4eba\u4e0d\u8981\u91cd\u53e0\uff0c\u8138\u90e8\u90fd\u8981\u53ef\u89c1\u3002','\u9002\u5408\u6709\u8db3\u591f\u524d\u540e\u7a7a\u95f4\u7684\u573a\u666f\u3002','\u7a7a\u95f4\u4e0d\u8db3\u65f6\uff0c\u6539\u4e3a\u5e76\u6392\u5750\u59ff\u3002',['\u4eba\u7269 A \u7ad9\u5230\u524d\u666f\u4eba\u7269\u6846\u3002','\u4eba\u7269 B \u7ad9\u5230\u540e\u666f\u4eba\u7269\u6846\u3002','\u7f29\u5c0f\u540e\u8ba9\u4e24\u5f20\u8138\u90fd\u8fdb\u5165\u753b\u9762\u3002'],{ personLabel:'\u4eba\u7269 A \u7ad9\u8fd9\u91cc',objectLabel:'\u4eba\u7269 B \u7ad9\u540e\u9762',personClass:'person-front-center',objectClass:'person-back-center'}),
-  make('couple-interact','couple','\u53cc\u4eba\u5408\u7167','\u9759\u6001\u4e92\u52a8\u00b7\u770b\u540c\u4e00\u4ef6\u4e8b\u7269','visual-interact','\u53cc\u4eba','\u6a2a\u5e45','\u7528\u9759\u6001\u4e92\u52a8\u8ba9\u5408\u7167\u66f4\u81ea\u7136\u3002','\u62cd\u6444\u8005\uff1a\u9009\u62e9\u676f\u5b50\u3001\u5730\u56fe\u6216\u98ce\u666f\u4f5c\u4e3a\u4e92\u52a8\u7269\u3002','\u4e24\u4eba\u9760\u8fd1\uff0c\u540c\u65f6\u770b\u5411\u624b\u4e2d\u7684\u4e1c\u897f\u3002','\u4e0d\u9700\u8981\u5938\u5f20\u52a8\u4f5c\uff0c\u53ea\u9700\u8981\u6709\u540c\u4e00\u4e2a\u6ce8\u610f\u529b\u4e2d\u5fc3\u3002','\u9700\u8981\u4e00\u4e2a\u53ef\u4ee5\u4e24\u4eba\u5171\u540c\u770b\u7684\u7269\u54c1\u3002','\u6ca1\u6709\u7269\u54c1\u65f6\uff0c\u8ba9\u4e24\u4eba\u540c\u65f6\u770b\u5411\u98ce\u666f\u6216\u8fdc\u65b9\u3002',['\u4e24\u4eba\u5206\u522b\u7ad9\u5230\u4eba\u7269\u6846\u5185\u3002','\u628a\u4e92\u52a8\u7269\u653e\u5230\u4e2d\u95f4\u62cd\u6444\u5bf9\u8c61\u6846\u3002','\u4fdd\u6301\u80a9\u8180\u653e\u677e\uff0c\u6309\u5feb\u95e8\u3002'],{ personLabel:'\u4e24\u4eba\u7ad9\u5728\u8fd9\u91cc',objectLabel:'\u4e92\u52a8\u7269\u653e\u8fd9\u91cc',personClass:'person-couple-wide',objectClass:'object-center'})
+  {
+    id: 'travel-landmark',
+    category: 'travel',
+    editStyle: { filter: 'warm', level: 70 },
+    categoryName: '旅行/景点',
+    title: '地标同框·单人全身',
+    visualClass: 'visual-landmark',
+    people: '单人',
+    orientation: '竖幅',
+    difficulty: '入门',
+    problem: '让人物和地标都完整出现。',
+    cameraGuide: '退后 3–5 步，手机放在胸口高度。',
+    subjectGuide: '站在画面左下方，身体轻转向地标。',
+    focus: '平视或轻微低机位，顶部给地标留空间。',
+    conditions: '适合单人、竖拍；人物距背景 1–3 米。',
+    fallback: '地标放不全时，改拍半身并保留标志性局部。',
+    steps: [
+      '让人物站到人物框内左下方。',
+      '让地标位于拍摄对象框内。',
+      '保持手机稳定，按快门拍摄。'
+    ],
+    overlay: {
+      personLabel: '人物站这里',
+      objectLabel: '地标放这里',
+      personClass: 'person-left-bottom',
+      objectClass: 'object-right-top'
+    }
+  },
+  {
+    id: 'travel-lines',
+    category: 'travel',
+    editStyle: { filter: 'fresh', level: 60 },
+    categoryName: '旅行/景点',
+    title: '建筑线条引导·侧身',
+    visualClass: 'visual-lines',
+    people: '单人',
+    orientation: '竖幅',
+    difficulty: '入门',
+    problem: '用建筑线条帮画面变得更有方向。',
+    cameraGuide: '找到建筑边线，镜头保持水平。',
+    subjectGuide: '站在线条一侧，身体轻转，看向前方。',
+    focus: '让线条从画面边缘延向人物。',
+    conditions: '需要有明显建筑或道路线条。',
+    fallback: '背景太乱时，改拍半身并靠近线条背景。',
+    steps: [
+      '让线条从画面下方进入。',
+      '让人物站在人物框内、靠近线条。',
+      '保持镜头水平后拍摄。'
+    ],
+    overlay: {
+      personLabel: '人物站这里',
+      objectLabel: '建筑线条从这里进入',
+      personClass: 'person-right-bottom',
+      objectClass: 'object-line-bottom'
+    }
+  },
+  {
+    id: 'travel-frame',
+    category: 'travel',
+    editStyle: { filter: 'vintage', level: 65 },
+    categoryName: '旅行/景点',
+    title: '前景框景·人物留白',
+    visualClass: 'visual-frame',
+    people: '单人',
+    orientation: '竖幅',
+    difficulty: '入门',
+    problem: '用前景让景色更有层次。',
+    cameraGuide: '靠近一个框子或叶片。',
+    subjectGuide: '站在前景后方，保留一侧留白。',
+    focus: '前景只占边缘，不要遮住脸部。',
+    conditions: '适合有门框、窗框或叶片的环境。',
+    fallback: '找不到前景时，使用墙面或栏杆作框。',
+    steps: [
+      '找到可以靠近的前景物。',
+      '让前景位于前景框内、靠近画面边缘。',
+      '调整人物到人物框留白区域。'
+    ],
+    overlay: {
+      personLabel: '人物站在留白区',
+      objectLabel: '前景框放这里',
+      personClass: 'person-right-middle',
+      objectClass: 'object-edge-left'
+    }
+  },
+  {
+    id: 'cafe-window',
+    category: 'cafe',
+    editStyle: { filter: 'fresh', level: 75 },
+    categoryName: '咖啡馆/室内',
+    title: '窗边坐姿·半身',
+    visualClass: 'visual-window',
+    people: '单人',
+    orientation: '竖幅',
+    difficulty: '入门',
+    problem: '让室内坐姿照不显僵。',
+    cameraGuide: '在桌边保持与眼睛平齐。',
+    subjectGuide: '靠近窗边，身体轻转向光源。',
+    focus: '保留窗外环境，让脸部明亮。',
+    conditions: '适合靠窗、有自然光的座位。',
+    fallback: '光线不足时，改为面向光源的半身照。',
+    steps: [
+      '让人物坐到人物框内。',
+      '让窗户和光线位于拍摄对象框内。',
+      '眼睛看向光源旁边。'
+    ],
+    overlay: {
+      personLabel: '人物坐这里',
+      objectLabel: '窗户/光线放这里',
+      personClass: 'person-left-middle',
+      objectClass: 'object-window-right'
+    }
+  },
+  {
+    id: 'cafe-table',
+    category: 'cafe',
+    editStyle: { filter: 'warm', level: 75 },
+    categoryName: '咖啡馆/室内',
+    title: '桌边生活感·手部动作',
+    visualClass: 'visual-table',
+    people: '单人',
+    orientation: '竖幅',
+    difficulty: '入门',
+    problem: '用手部互动让室内照更自然。',
+    cameraGuide: '距离桌边一步，拍半身和桌面。',
+    subjectGuide: '轻轻拿起杯子或书本。',
+    focus: '让手部有动作，脸部保持放松。',
+    conditions: '需要桌子和一个可互动的物品。',
+    fallback: '没有道具时，用手撑住下巴。',
+    steps: [
+      '让桌面占画面下方三分之一。',
+      '让手和道具位于拍摄对象框内。',
+      '不要直盯镜头，看向手中物品。'
+    ],
+    overlay: {
+      personLabel: '人物坐这里',
+      objectLabel: '桌面和道具放这里',
+      personClass: 'person-right-middle',
+      objectClass: 'object-table-bottom'
+    }
+  },
+  {
+    id: 'cafe-side',
+    category: 'cafe',
+    editStyle: { filter: 'fresh', level: 55 },
+    categoryName: '咖啡馆/室内',
+    title: '侧身看窗外·环境人像',
+    visualClass: 'visual-side',
+    people: '单人',
+    orientation: '横幅',
+    difficulty: '入门',
+    problem: '让人物和室内环境同时成为主体。',
+    cameraGuide: '保留窗户和一部桌面。',
+    subjectGuide: '身体侧向窗户，眼睛看向外面。',
+    focus: '人物不要站在画面正中，给窗外留空间。',
+    conditions: '适合窗外有街景或风景的室内环境。',
+    fallback: '窗外景色不好时，改拍室内墙面和桌面。',
+    steps: [
+      '让人物站到人物框内一侧。',
+      '让窗外或室内细节位于拍摄对象框内。',
+      '轻轻转身，按快门。'
+    ],
+    overlay: {
+      personLabel: '人物站这里',
+      objectLabel: '窗外景色放这里',
+      personClass: 'person-left-middle',
+      objectClass: 'object-window-right'
+    }
+  },
+  {
+    id: 'couple-side',
+    category: 'couple',
+    editStyle: { filter: 'fresh', level: 50 },
+    categoryName: '双人合照',
+    title: '并肩留白·双人合照',
+    visualClass: 'visual-couple',
+    people: '双人',
+    orientation: '横幅',
+    difficulty: '入门',
+    problem: '让两个人不贴成一排，画面更轻松。',
+    cameraGuide: '保留两人周围留白，镜头与眼睛平齐。',
+    subjectGuide: '肩膀不必平齐，一人轻轻侧身。',
+    focus: '让两个人之间留一点空间。',
+    conditions: '适合两人横拍。',
+    fallback: '空间太小时，改拍半身并靠近两人。',
+    steps: [
+      '第一个人站到左侧人物框。',
+      '第二个人站到右侧人物框。',
+      '两人同时看向镜头。'
+    ],
+    overlay: {
+      personLabel: '人物 A 站这里',
+      objectLabel: '人物 B 站这里',
+      personClass: 'person-left-wide',
+      objectClass: 'person-right-wide'
+    }
+  },
+  {
+    id: 'couple-depth',
+    category: 'couple',
+    editStyle: { filter: 'warm', level: 60 },
+    categoryName: '双人合照',
+    title: '前后层次·双人合照',
+    visualClass: 'visual-depth',
+    people: '双人',
+    orientation: '竖幅',
+    difficulty: '入门',
+    problem: '用前后距离让双人照更有立体感。',
+    cameraGuide: '保持距离，以前面人物为对焦。',
+    subjectGuide: '一人靠近镜头，一人后退一步。',
+    focus: '前后两人不要重叠，脸部都要可见。',
+    conditions: '适合有足够前后空间的场景。',
+    fallback: '空间不足时，改为并排坐姿。',
+    steps: [
+      '人物 A 站到前景人物框。',
+      '人物 B 站到后景人物框。',
+      '缩小后让两张脸都进入画面。'
+    ],
+    overlay: {
+      personLabel: '人物 A 站这里',
+      objectLabel: '人物 B 站后面',
+      personClass: 'person-front-center',
+      objectClass: 'person-back-center'
+    }
+  },
+  {
+    id: 'couple-interact',
+    category: 'couple',
+    editStyle: { filter: 'vintage', level: 55 },
+    categoryName: '双人合照',
+    title: '静态互动·看同一件事物',
+    visualClass: 'visual-interact',
+    people: '双人',
+    orientation: '横幅',
+    difficulty: '入门',
+    problem: '用静态互动让合照更自然。',
+    cameraGuide: '选择杯子、地图或风景作为互动物。',
+    subjectGuide: '靠近，同时看向手中的东西。',
+    focus: '不需要夸张动作，只需要有同一个注意力中心。',
+    conditions: '需要一个可以两人共同看的物品。',
+    fallback: '没有物品时，让两人同时看向风景或远方。',
+    steps: [
+      '两人分别站到人物框内。',
+      '把互动物放到中间拍摄对象框。',
+      '保持肩膀放松，按快门。'
+    ],
+    overlay: {
+      personLabel: '两人站在这里',
+      objectLabel: '互动物放这里',
+      personClass: 'person-couple-wide',
+      objectClass: 'object-center'
+    }
+  }
 ];
+
+templates.forEach((template) => {
+  template.shortTitle = template.title.split('·')[0];
+  template.sampleImage = sampleImages[template.id] || '';
+});
 
 module.exports = { templates };

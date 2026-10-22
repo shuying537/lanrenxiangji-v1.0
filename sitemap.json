@@ -1,1 +1,9 @@
-{"desc":"lazy camera sitemap","rules":[{"action":"allow","page":"*"}]}
+{
+  "desc": "懒人相机小程序页面索引",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

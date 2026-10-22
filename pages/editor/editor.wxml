@@ -1,8 +1,35 @@
 <view class="editor-page">
-  <view class="editor-preview">
-    <image wx:if="{{previewPath}}" class="editor-image" mode="aspectFit" src="{{compareOriginal ? sourcePath : previewPath}}"></image>
+  <view id="previewArea" class="editor-preview">
+    <view
+      id="cropFrame"
+      class="crop-frame"
+      style="width:{{frameW}}px;height:{{frameH}}px;"
+      catchtouchstart="cropTouchStart"
+      catchtouchmove="cropTouchMove"
+      catchtouchend="cropTouchEnd"
+      catchtouchcancel="cropTouchEnd"
+    >
+      <view class="crop-image-box" style="width:{{displayW}}px;height:{{displayH}}px;left:50%;top:50%;transform:translate(-50%,-50%) translate({{offsetX}}px,{{offsetY}}px);">
+        <image
+          class="crop-image"
+          style="width:{{imageW}}px;height:{{imageH}}px;left:50%;top:50%;transform:translate(-50%,-50%) scaleX({{flipX ? -1 : 1}}) rotate({{rotation}}deg);"
+          src="{{sourcePath}}"
+          mode="scaleToFill"
+        ></image>
+      </view>
+      <view class="filter-layer" style="background:{{filterColor}};opacity:{{compareOriginal ? 0 : filterAlpha}};"></view>
+      <view class="crop-grid">
+        <view class="crop-grid-v crop-grid-v1"></view>
+        <view class="crop-grid-v crop-grid-v2"></view>
+        <view class="crop-grid-h crop-grid-h1"></view>
+        <view class="crop-grid-h crop-grid-h2"></view>
+      </view>
+    </view>
+    <view wx:if="{{!frameW}}" class="preview-loading">正在读取照片…</view>
     <view wx:if="{{compareOriginal}}" class="compare-badge">原图对比</view>
   </view>
+
+  <view class="editor-hint">拖动画面调整构图，双指缩放；旋转和镜像会同步到导出照片。按住下方按钮可对比原图。</view>
 
   <view class="editor-section">
     <view class="editor-section-title">比例裁剪</view>
@@ -10,12 +37,61 @@
   </view>
 
   <view class="editor-section">
-    <view class="editor-section-title">基础风格</view>
-    <scroll-view scroll-x class="choice-scroll"><view class="choice-row"><view wx:for="{{filterOptions}}" wx:key="value" class="choice-pill {{currentFilter === item.value ? 'choice-active' : ''}}" data-value="{{item.value}}" bindtap="selectFilter">{{item.label}}</view></view></scroll-view>
+    <view class="editor-section-title">方向调整</view>
+    <view class="tool-row">
+      <button class="editor-tool" bindtap="rotateLeft">左转 90°</button>
+      <button class="editor-tool" bindtap="rotateRight">右转 90°</button>
+      <button class="editor-tool" bindtap="flipImage">{{flipX ? '取消镜像' : '水平镜像'}}</button>
+    </view>
+    <view class="tool-row">
+      <button class="editor-tool {{canUndo ? '' : 'tool-disabled'}}" disabled="{{!canUndo}}" bindtap="undoEdit">撤销</button>
+      <button class="editor-tool {{canRedo ? '' : 'tool-disabled'}}" disabled="{{!canRedo}}" bindtap="redoEdit">重做</button>
+      <text class="tool-note">反复调整可回退最近 20 步</text>
+    </view>
   </view>
 
-  <view class="editor-hint">比例和风格会写入导出的新照片，原始照片不会被修改。</view>
-  <view class="editor-actions"><button class="secondary-button" bindtap="toggleCompare">{{compareOriginal ? '返回编辑结果' : '查看原图'}}</button><button class="primary-button" bindtap="saveEdited">{{saving ? '保存中…' : '保存到相册'}}</button></view>
-  <canvas canvas-id="editorCanvas" class="editor-canvas" style="width:{{canvasWidth}}px;height:{{canvasHeight}}px;"></canvas>
-  <view wx:if="{{errorMessage}}" class="editor-error" bindtap="openSettings">{{errorMessage}}</view>
+  <view class="crop-tools">
+    <view class="editor-section-title">手动缩放</view>
+    <view class="crop-tool-row">
+      <button class="crop-tool" data-delta="-0.2" bindtap="zoomCrop">缩小</button>
+      <text>当前 {{cropZoom}}×</text>
+      <button class="crop-tool" data-delta="0.2" bindtap="zoomCrop">放大</button>
+    </view>
+  </view>
+
+  <view class="editor-section">
+    <view class="editor-section-title">基础风格</view>
+    <view wx:if="{{templateStyle}}" class="preset-row">
+      <button class="preset-button" bindtap="applyTemplateStyle">套用模板同款色调</button>
+      <text class="preset-note">{{templateStyleLabel}}</text>
+    </view>
+    <scroll-view scroll-x class="choice-scroll"><view class="choice-row"><view wx:for="{{filterOptions}}" wx:key="value" class="choice-pill {{currentFilter === item.value ? 'choice-active' : ''}}" data-value="{{item.value}}" bindtap="selectFilter">{{item.label}}</view></view></scroll-view>
+    <view wx:if="{{currentFilter !== 'original'}}" class="filter-level">
+      <view class="filter-level-head"><text>滤镜强度</text><text>{{filterLevel}}%</text></view>
+      <slider
+        class="filter-slider"
+        min="0"
+        max="100"
+        step="5"
+        value="{{filterLevel}}"
+        activeColor="#f2e9df"
+        backgroundColor="#5a514a"
+        block-color="#ffffff"
+        block-size="20"
+        bindchanging="changeFilterLevel"
+        bindchange="commitFilterLevel"
+      />
+    </view>
+  </view>
+
+  <view class="editor-hint">比例、方向、色调和强度会写入导出的新照片，原始照片不会被修改。</view>
+  <view class="editor-actions">
+    <button class="secondary-button" bindtouchstart="startCompare" bindtouchend="endCompare" bindtouchcancel="endCompare">按住看原图</button>
+    <button class="primary-button {{saving ? 'button-disabled' : ''}}" bindtap="saveEdited">{{saving ? '保存中…' : '保存到相册'}}</button>
+  </view>
+  <canvas type="2d" id="editorCanvas" class="editor-canvas"></canvas>
+  <view wx:if="{{errorMessage}}" class="editor-error" bindtap="handleErrorTap">
+    <text class="editor-error-text">{{errorMessage}}</text>
+    <text class="editor-error-close" catchtap="dismissError">×</text>
+  </view>
 </view>

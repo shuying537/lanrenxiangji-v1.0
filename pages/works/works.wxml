@@ -1,0 +1,84 @@
+<view class="page works-page">
+  <view class="section-title">{{labels.title}}</view>
+
+  <view class="works-section">
+    <view class="works-section-head">
+      <view class="works-section-title">{{labels.favorites}}</view>
+      <text class="works-count">{{favorites.length}}</text>
+    </view>
+    <scroll-view wx:if="{{favorites.length}}" scroll-x class="works-scroll">
+      <view class="works-row">
+        <view
+          wx:for="{{favorites}}"
+          wx:key="id"
+          class="works-template"
+          data-id="{{item.id}}"
+          bindtap="openTemplate"
+        >
+          <view class="works-template-dot"></view>
+          <text>{{item.shortTitle}}</text>
+        </view>
+      </view>
+    </scroll-view>
+    <view wx:else class="works-empty">{{labels.emptyFavorites}}</view>
+  </view>
+
+  <view class="works-section">
+    <view class="works-section-head">
+      <view class="works-section-title">{{labels.recent}}</view>
+      <text class="works-count">{{recentTemplates.length}}</text>
+    </view>
+    <view wx:if="{{recentTemplates.length}}" class="recent-list">
+      <view wx:for="{{recentTemplates}}" wx:key="id" class="recent-card">
+        <view class="recent-card-copy" data-id="{{item.id}}" bindtap="openTemplate">
+          <view class="recent-card-title">{{item.title}}</view>
+          <view class="recent-card-sub">{{item.people}} · {{item.orientation}}</view>
+        </view>
+        <button class="mini-action" data-id="{{item.id}}" bindtap="shootAgain">{{labels.shootAgain}}</button>
+      </view>
+    </view>
+    <view wx:else class="works-empty">{{labels.emptyRecent}}</view>
+  </view>
+
+  <view class="works-section">
+    <view class="works-section-head">
+      <view class="works-section-title">{{labels.works}}</view>
+      <text class="works-count">{{works.length}}</text>
+    </view>
+    <view wx:if="{{works.length}}" class="works-grid">
+      <view wx:for="{{works}}" wx:key="id" class="work-card" data-id="{{item.id}}" bindtap="openWork">
+        <view class="work-thumb">
+          <image
+            wx:if="{{!item.imageBroken}}"
+            class="work-image"
+            mode="aspectFill"
+            lazy-load
+            src="{{item.photoPath}}"
+            data-id="{{item.id}}"
+            binderror="onWorkImageError"
+          ></image>
+          <view wx:else class="work-missing">{{labels.missing}}</view>
+        </view>
+        <view class="work-meta">
+          <view class="work-title">{{item.ratioLabel}} · {{item.filterLabel}}</view>
+          <button class="work-delete" data-id="{{item.id}}" catchtap="deleteWork">{{labels.delete}}</button>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="works-empty">{{labels.emptyWorks}}</view>
+  </view>
+
+  <view class="works-section stats-entry" bindtap="openStats">
+    <view class="stats-entry-copy">
+      <view class="works-section-title">{{labels.stats}}</view>
+      <view class="stats-entry-sub">{{labels.statsSub}}</view>
+    </view>
+    <view class="stats-entry-arrow">›</view>
+  </view>
+
+  <view class="privacy-card">
+    <view class="privacy-title">{{labels.privacyTitle}}</view>
+    <view class="privacy-text">{{labels.privacyText}}</view>
+  </view>
+  <button class="secondary-button clear-button" bindtap="clearLocalData">{{labels.clear}}</button>
+</view>
